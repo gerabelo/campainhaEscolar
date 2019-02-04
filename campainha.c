@@ -1,6 +1,16 @@
 /*
   geraldo.rabelo@gmail.com fev-2019
   gcc campainha.c -o campainha.exe
+  
+  Windows:
+	system("COM1:9600,N,8,1,P");
+	system("echo \"1\" > COM1");
+	system("echo \"2\" > COM1");
+
+  Linux:
+	stty -F /dev/ttyACM0 -hupcl
+	echo 1 > /dev/ttyACM0
+	echo 2 > /dev/ttyACM0
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -102,8 +112,8 @@ void soar(void) {
 	struct tm *hora_atual = localtime(&now);
 
 	printf("\n[%2d:%2d] Soando...\n",hora_atual->tm_hour,hora_atual->tm_min);
-	system("MODE COM3:9600,N,8,1");
-	system("ECHO 0 > COM3");
+	system("MODE COM1:9600,N,8,1");
+	system("ECHO 1 > COM1");
 	sleep(3);
-	system("ECHO 1 > COM3");
+	system("ECHO 2 > COM1");
 }
