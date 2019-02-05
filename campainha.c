@@ -98,7 +98,7 @@ int main(void) {
 		if (alarme[i].status == 1) {
 			printf("\n[%02d:%02d] proximo alarme: %02d:%02d",hora_atual->tm_hour,hora_atual->tm_min,alarme[i].hora,alarme[i].minutos);
 			while(alarme[i].status == 1) {
-				printf(".");
+				//printf(".");
 				time(&now);
 				hora_atual = localtime(&now);
 				if ((alarme[i].hora == hora_atual->tm_hour) && (alarme[i].minutos == hora_atual->tm_min)) {
