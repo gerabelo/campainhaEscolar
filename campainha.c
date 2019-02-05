@@ -3,9 +3,9 @@
   gcc campainha.c -o campainha.exe
   
   Windows:
-	system("COM1:9600,N,8,1,P");
-	system("echo \"1\" > COM1");
-	system("echo \"2\" > COM1");
+	COM1:9600,N,8,1,P
+	echo "1" > COM1
+	echo "2" > COM1
 
   Linux:
 	stty -F /dev/ttyACM0 -hupcl
@@ -36,11 +36,11 @@ int main(void) {
 	char *soar;
 	char *silenciar;
 
-	soar = malloc(15*sizeof(char));
-	silenciar = malloc(15*sizeof(char));
+	soar = malloc(16*sizeof(char));
+	silenciar = malloc(16*sizeof(char));
 
-	sprintf(soar,"echo \"1\" > COM3");
-	sprintf(silenciar,"echo \"2\" > COM3");
+	sprintf(soar,"echo \"1\" > COM3;");
+	sprintf(silenciar,"echo \"2\" > COM3;");
 
 	//printf("\n%s\n%s\n",soar,silenciar);
 
@@ -52,58 +52,45 @@ int main(void) {
 	alarme[1].minutos = 45;
 	alarme[1].status = 0;
 
-
 	alarme[2].hora = 9;
 	alarme[2].minutos = 5;
 	alarme[2].status = 0;
-
-
+	
 	alarme[3].hora = 9;
 	alarme[3].minutos = 15;
 	alarme[3].status = 0;
-
 
 	alarme[4].hora = 9;
 	alarme[4].minutos = 30;
 	alarme[4].status = 0;
 
-
 	alarme[5].hora = 11;
 	alarme[5].minutos = 0;
 	alarme[5].status = 0;
-
 
 	alarme[6].hora = 13;
 	alarme[6].minutos = 0;
 	alarme[6].status = 0;
 
-
 	alarme[7].hora = 14;
 	alarme[7].minutos = 45;
 	alarme[7].status = 0;
-
 
 	alarme[8].hora = 15;
 	alarme[8].minutos = 5;
 	alarme[8].status = 0;
 
-
 	alarme[9].hora = 15;
 	alarme[9].minutos = 15;
 	alarme[9].status = 0;
-
 
 	alarme[10].hora = 15;
 	alarme[10].minutos = 30;
 	alarme[10].status = 0;
 
-
 	alarme[11].hora = 17;
 	alarme[11].minutos = 00;
 	alarme[11].status = 0;
-
-
-
 
 	while(1) {
 
@@ -120,10 +107,9 @@ int main(void) {
 					printf("\n[%2d:%2d] Soando...\n",hora_atual->tm_hour,hora_atual->tm_min);
 					system("MODE COM3:9600,N,8,1;");
 					sleep(3);
-					system("echo \"1\" > COM3;");
+					system(soar);
 					sleep(4);
-					system("echo \"2\" > COM3;");
-
+					system(silenciar);
 					sleep(65);
 					i++;
 				}
@@ -136,11 +122,7 @@ int main(void) {
 		else {
 			alarme[i].status = 1;
 		}
-
 		time(&now);
 		hora_atual = localtime(&now);
-		sleep(1);
-
-
 	}
 }
