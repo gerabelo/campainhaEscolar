@@ -33,6 +33,16 @@ int main(void) {
 	Horarios alarme[12];
 	struct tm *hora_atual = localtime(&now);
 	int i = 0;
+	char *soar;
+	char *silenciar;
+
+	soar = malloc(15*sizeof(char));
+	silenciar = malloc(15*sizeof(char));
+
+	sprintf(soar,"echo \"1\" > COM3");
+	sprintf(silenciar,"echo \"2\" > COM3");
+
+	//printf("\n%s\n%s\n",soar,silenciar);
 
 	alarme[0].hora = 7;
 	alarme[0].minutos = 0;
@@ -92,18 +102,28 @@ int main(void) {
 	alarme[11].minutos = 00;
 	alarme[11].status = 0;
 
+
+
+
 	while(1) {
 
 		if (i == 12) { i = 0; }
 		if (alarme[i].status == 1) {
 			printf("\n[%02d:%02d] proximo alarme: %02d:%02d",hora_atual->tm_hour,hora_atual->tm_min,alarme[i].hora,alarme[i].minutos);
 			while(alarme[i].status == 1) {
-				//printf(".");
+				
 				time(&now);
 				hora_atual = localtime(&now);
 				if ((alarme[i].hora == hora_atual->tm_hour) && (alarme[i].minutos == hora_atual->tm_min)) {
 					alarme[i].status = 0;
-					soar();
+
+					printf("\n[%2d:%2d] Soando...\n",hora_atual->tm_hour,hora_atual->tm_min);
+					system("MODE COM3:9600,N,8,1;");
+					sleep(3);
+					system("echo \"1\" > COM3;");
+					sleep(4);
+					system("echo \"2\" > COM3;");
+
 					sleep(65);
 					i++;
 				}
@@ -120,19 +140,7 @@ int main(void) {
 		time(&now);
 		hora_atual = localtime(&now);
 		sleep(1);
+
+
 	}
-}
-
-
-void soar(void) {
-	time_t now;
-	time(&now);
-	struct tm *hora_atual = localtime(&now);
-
-	printf("\n[%2d:%2d] Soando...\n",hora_atual->tm_hour,hora_atual->tm_min);
-	system("MODE COM3:9600,N,8,1");
-	sleep(1);
-	system("echo '1' > COM3");
-	sleep(4);
-	system("echo '2' > COM3");
 }
