@@ -12,7 +12,6 @@
 	echo 1 > /dev/ttyACM0
 	echo 2 > /dev/ttyACM0
 */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -36,11 +35,11 @@ int main(void) {
 	char *soar;
 	char *silenciar;
 
-	soar = malloc(16*sizeof(char));
-	silenciar = malloc(16*sizeof(char));
+	soar = malloc(15*sizeof(char));
+	silenciar = malloc(15*sizeof(char));
 
-	sprintf(soar,"echo \"1\" > COM3;");
-	sprintf(silenciar,"echo \"2\" > COM3;");
+	sprintf(soar,"echo \"1\" > COM3");
+	sprintf(silenciar,"echo \"2\" > COM3");
 
 	//printf("\n%s\n%s\n",soar,silenciar);
 
@@ -55,10 +54,11 @@ int main(void) {
 	alarme[2].hora = 9;
 	alarme[2].minutos = 5;
 	alarme[2].status = 0;
-	
+
 	alarme[3].hora = 9;
 	alarme[3].minutos = 15;
 	alarme[3].status = 0;
+
 
 	alarme[4].hora = 9;
 	alarme[4].minutos = 30;
@@ -105,11 +105,11 @@ int main(void) {
 					alarme[i].status = 0;
 
 					printf("\n[%2d:%2d] Soando...\n",hora_atual->tm_hour,hora_atual->tm_min);
-					system("MODE COM3:9600,N,8,1;");
+					system("MODE COM3:9600,N,8,1,P");
 					sleep(3);
-					system(soar);
+					printf("\n%s : %d\n",soar,system(soar));
 					sleep(4);
-					system(silenciar);
+					printf("\n%s : %d\n",silenciar,system(silenciar));
 					sleep(65);
 					i++;
 				}
@@ -122,7 +122,9 @@ int main(void) {
 		else {
 			alarme[i].status = 1;
 		}
+
 		time(&now);
 		hora_atual = localtime(&now);
+		sleep(1);
 	}
 }
