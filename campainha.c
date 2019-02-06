@@ -37,7 +37,9 @@ int main(void) {
 
 	soar = malloc(15*sizeof(char));
 	silenciar = malloc(15*sizeof(char));
+	configurar = malloc(22*sizeof(char));
 
+	sprintf(configurar,"MODE COM3:9600,N,8,1,P");
 	sprintf(soar,"echo \"1\" > COM3");
 	sprintf(silenciar,"echo \"2\" > COM3");
 
@@ -58,7 +60,6 @@ int main(void) {
 	alarme[3].hora = 9;
 	alarme[3].minutos = 15;
 	alarme[3].status = 0;
-
 
 	alarme[4].hora = 9;
 	alarme[4].minutos = 30;
@@ -105,9 +106,9 @@ int main(void) {
 					alarme[i].status = 0;
 
 					printf("\n[%2d:%2d] Soando...\n",hora_atual->tm_hour,hora_atual->tm_min);
-					system("MODE COM3:9600,N,8,1,P");
+					printf("\n%s : %d",system(configurar));
 					sleep(3);
-					printf("\n%s : %d\n",soar,system(soar));
+					printf("\n%s : %d",soar,system(soar));
 					sleep(4);
 					printf("\n%s : %d\n",silenciar,system(silenciar));
 					sleep(65);
@@ -126,5 +127,6 @@ int main(void) {
 		time(&now);
 		hora_atual = localtime(&now);
 		sleep(1);
+
 	}
 }
