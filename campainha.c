@@ -34,6 +34,7 @@ int main(void) {
 	int i = 0;
 	char *soar;
 	char *silenciar;
+	char *configurar;
 
 	soar = malloc(15*sizeof(char));
 	silenciar = malloc(15*sizeof(char));
@@ -97,14 +98,12 @@ int main(void) {
 
 		if (i == 12) { i = 0; }
 		if (alarme[i].status == 1) {
-			printf("\n[%02d:%02d] proximo alarme: %02d:%02d",hora_atual->tm_hour,hora_atual->tm_min,alarme[i].hora,alarme[i].minutos);
 			while(alarme[i].status == 1) {
 				
 				time(&now);
 				hora_atual = localtime(&now);
 				if ((alarme[i].hora == hora_atual->tm_hour) && (alarme[i].minutos == hora_atual->tm_min)) {
 					alarme[i].status = 0;
-
 					printf("\n[%2d:%2d] Soando...\n",hora_atual->tm_hour,hora_atual->tm_min);
 					printf("\n%s : %d",system(configurar));
 					sleep(3);
@@ -114,6 +113,15 @@ int main(void) {
 					sleep(65);
 					i++;
 				}
+
+				if (system(configurar) == -1) {
+					printf("\a\n");
+					printf("\nCAMPAINHA DESCONECTADA! POR FAVOR VERIFIQUE A CONEXAO -> CABO USB");
+				}
+				//sleep(1);
+				system("cls");
+				//sleep(1);
+				printf("\n[%02d:%02d] proximo alarme: %02d:%02d",hora_atual->tm_hour,hora_atual->tm_min,alarme[i].hora,alarme[i].minutos);
 				sleep(5);
 			}
 		}
@@ -127,6 +135,5 @@ int main(void) {
 		time(&now);
 		hora_atual = localtime(&now);
 		sleep(1);
-
 	}
 }
